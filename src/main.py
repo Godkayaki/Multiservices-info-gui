@@ -17,6 +17,7 @@ from tkinter import messagebox
 import connections
 
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
+GUI_FILE = PROJECT_PATH+"/guis/maingui.ui"
 
 #main class
 class MainApp(Frame):
@@ -32,10 +33,15 @@ class MainApp(Frame):
 
     #define pygubu widgets
     def defineWidgets(self):
-        pass
+        self.frame_services = self.builder.get_object('frame_services')
+        self.button_add_service = self.builder.get_object('button_add_service')
 
     #setup bindings on startup
     def setupButtons(self):
+        self.button_add_service.bind("<Button-1>", self.w_addservice)
+
+    #create add service window
+    def w_addservice(self):
         pass
 
     #run application
