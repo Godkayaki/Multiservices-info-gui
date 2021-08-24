@@ -6,9 +6,7 @@
 import os
 import re
 import sys
-import lxml
 import pygubu
-import tkmacosx
 import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
