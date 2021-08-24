@@ -14,7 +14,8 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
 
-import connections
+import connections as conn
+import topwindows as topW
 
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
 GUI_FILE = PROJECT_PATH+"/guis/maingui.ui"
@@ -31,6 +32,10 @@ class MainApp(Frame):
         self.defineWidgets()
         self.setupButtons()
 
+    #run application
+    def run(self):
+        self.mainwindow.mainloop()
+
     #define pygubu widgets
     def defineWidgets(self):
         self.frame_services = self.builder.get_object('frame_services')
@@ -38,15 +43,13 @@ class MainApp(Frame):
 
     #setup bindings on startup
     def setupButtons(self):
-        self.button_add_service.bind("<Button-1>", self.w_addservice)
+        self.button_add_service.bind("<Button-1>", self.addService)
 
     #create add service window
-    def w_addservice(self):
-        pass
-
-    #run application
-    def run(self):
-        self.mainwindow.mainloop()
+    def addService(self, event):
+        addservice_window = topW.w_addService()
+        addservice_window.lift()
+        addservice_window.attributes("-topmost", True)
 
 #run on main
 if __name__ == '__main__':
