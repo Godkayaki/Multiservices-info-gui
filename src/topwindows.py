@@ -124,10 +124,8 @@ class w_addService(tk.Toplevel):
         frame_separator = tk.Frame(self.mainframe, height=60)
         frame_separator.pack(side="top", expand=True)
 
-    #test connection method
-    def test_connection(self, event):
-        sn, h, u, p = self.get_entries_content()
-        
+    #get connection
+    def ssh_connection(self, h, u, p):
         #try ssh connection, if error popups return
         try:
             client = paramiko.SSHClient()
@@ -135,23 +133,40 @@ class w_addService(tk.Toplevel):
             client.connect(hostname=h, username=u, password=p)
         except:
             messagebox.showerror(message="SSH connection error.", title="Error: SSH connection")
-            return
+            return False
         
+        return client
+
+    #test connection method
+    def test_connection(self, event):
+        sn, h, u, p = self.get_entries_content()
+        
+        #get client
+        client = self.ssh_connection(h, u, p)
+        if client == False: return
+
         #format command, run command, get result
         c_run = self.service_str_c + sn
         stdin, stdout, stderr = client.exec_command(c_run)
         msg = stdout.read().decode()
 
         #show messagebox depending on service status
-        if "active" in msg:
-            messagebox.showinfo(message="SSH connection successful, service up.", title="SSH successful")
+        if "inactive" in msg:
+            messagebox.showinfo(message="SSH connection successful, service not recognized.", title="SSH successful")
         elif "failed" in msg:    
             messagebox.showinfo(message="SSH connection successful, service down.", title="SSH successful")
-
+        elif "active" in msg:
+            messagebox.showinfo(message="SSH connection successful, service up.", title="SSH successful")
+        
     #apply config
     def add_service(self, event):
         sn, h, u, p = self.get_entries_content()
-        print(sn, h, u, p)
+        
+        #get client
+        client = self.ssh_connection(h, u, p)
+        if client == False:
+            messagebox.showerror(message="SSH connection error.", title="Error: SSH connection")
+            return
 
     #return entries content
     def get_entries_content(self):
