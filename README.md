@@ -14,7 +14,7 @@ You can add services which will be automatically added to the main window and wi
 ## Installation
 To install search by last release, to execute from source code;
 ```
-git clone https://github.com/Godkayaki/Router-devnet-config
+git clone https://github.com/Godkayaki/Multiservices-info-gui
 cd Multiservices-info-gui/src
 python3 main.py
 ```
